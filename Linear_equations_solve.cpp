@@ -208,57 +208,6 @@ double* GaussMethod(double** A, double*b, const int& n) {
 	return x;
 }
 
-double* GaussMethod(int** A, int* b, const int& m) {
-	/* Finds a solution to the system of linear equations
-	using Gauss method*/
-	// Ax = b, 
-	// A: m x m, b: m
-
-	double* x = new double[m];
-	double** A_copy = new double*[m];
-	double* b_copy = new double[m];
-	int i, j, k, t;
-	for (i = 0; i < m; ++i) {
-		A_copy[i] = new double[m];
-		b_copy[i] = b[i];
-		for (j = 0; j < m; ++j) {
-			A_copy[i][j] = (double)A[i][j];
-		}
-	}
-	double ai;
-	for (i = 0; i < m; ++i) {
-		ai = A_copy[i][i];
-		if (ai == 0) continue;
-		for (j = 0; j < m; ++j) {
-			A_copy[i][j] /= ai;
-		}
-		b_copy[i] /= ai;
-		for (k = m - 1; k > i; --k) {
-			for (j = 0; j < m; ++j) {
-				A_copy[k][j] -= (A_copy[i][j] * A_copy[k][i]);
-			}
-			b_copy[k] -= (b_copy[i] * A_copy[k][i]);
-		}
-	}
-
-	x[m - 1] = b_copy[m - 1];
-	double suma;
-	for (i = m - 2; i >= 0; --i) {
-		suma = 0.0;
-		for (j = m - 1; j > i; --j) {
-			suma += A_copy[i][j] * x[j];
-		}
-		x[i] = b_copy[i] - suma;
-	}
-
-	for (i = 0; i < m; ++i) {
-		delete[]A[i];
-	}
-	delete[]A_copy;
-	delete[]b_copy;
-
-	return x;
-}
 
 double* TridiagonalSolve(const double *a, const double *b, double *c, double *d, const int& n) {
 	// a[0] == 0
